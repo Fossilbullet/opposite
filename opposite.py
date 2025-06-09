@@ -2,16 +2,19 @@ import os
 from flask import Flask, request, jsonify
 import http.client
 import json
-import os
 
 app = Flask(__name__)
 
-@app.route('/get-task-status/<task_id>', methods=['GET'])
-def get_task_status(task_id):
+@app.route('/get-task-status', methods=['GET'])
+def get_task_status():
     API_KEY = os.getenv("PIAPI_API_KEY")
     if not API_KEY:
         return jsonify({"error": "API key not set in environment"}), 500
 
+    task_id = request.args.get("task_id")
+    if not task_id:
+        return jsonify({"error": "Missing task_id parameter"}), 400
+    
     conn = http.client.HTTPSConnection("api.piapi.ai")
     headers = {
         'x-api-key': API_KEY
