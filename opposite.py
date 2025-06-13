@@ -5,7 +5,7 @@ import json
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app, origins=["https://a-i-face-video-generator-wnb1vi.flutterflow.app/"])
+CORS(app, resources={r"/*": {"origins": "https://a-i-face-video-generator-wnb1vi.flutterflow.app"}}, supports_credentials=True)
 
 @app.route('/get-task-status', methods=['GET'])
 def get_task_status():
